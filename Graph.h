@@ -45,6 +45,7 @@ int NextAdjVex(MyGraph G, int v, int w)
 	}
 	return -1;
 }
+
 void DFS(MyGraph G, int v)
 {
 	cout << G.vexs[v]; visited[v] = true;
@@ -81,6 +82,12 @@ void DFSMyGraph(MyGraph G, int v)
 			DFS(G, w);
 	}
 }
+
+void BFS(MyGraph G, int v)
+{
+
+}
+
 Status CreatUDN(MyGraph& G)
 {
 	cout << "输入总顶点数，总边数，以空格或回车隔开" << endl;
