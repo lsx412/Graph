@@ -5,7 +5,7 @@
 #define MAXVEX 20
 #define INFINITY 32768
 #define OK 1
-#define ERR 0
+#define ERROR 0
 using namespace std;
 typedef int Status;	/* Status是函数的类型,其值是函数结果状态代码，如OK等 */
 typedef char VertexType; /* 顶点类型应由用户定义  */
