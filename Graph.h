@@ -10,7 +10,7 @@ using namespace std;
 typedef int Status;	/* Status是函数的类型,其值是函数结果状态代码，如OK等 */
 typedef char VertexType; /* 顶点类型应由用户定义  */
 typedef int EdgeType; /* 边上的权值类型应由用户定义 */
-
+bool visited[MAXVEX] = { false };
 typedef struct MyGraph
 {
 	VertexType vexs[MAXVEX]; /* 顶点表 */
@@ -23,12 +23,67 @@ int LocateVex(MyGraph G,VertexType u)
 	for (int i = 0; i < G.numNodes; i++)
 		if (u == G.vexs[i])
 			return i;
-	return MAXVEX;
+	return -1;
 }
 
+int FirstAdjVex(MyGraph G, int v)
+{
+	for (int i = 0; i < G.numNodes; i++)
+	{
+		if (G.arc[v][i] != INFINITY)
+			return i;
+	}
+	return -1;
+}
+
+int NextAdjVex(MyGraph G, int v, int w)
+{
+	for (int i = w + 1; i < G.numNodes; i++)
+	{
+		if (G.arc[v][i] != INFINITY)
+			return i;
+	}
+	return -1;
+}
+void DFS(MyGraph G, int v)
+{
+	cout << G.vexs[v]; visited[v] = true;
+	for (int w = FirstAdjVex(G, v); w >= 0; w = NextAdjVex(G, v, w))
+	{
+		if (!visited[w])
+			DFS(G, w);
+	}
+}
+
+void DFSTraverse(MyGraph G)
+{
+	for (int v = 0; v < G.numNodes; v++)
+	{
+		visited[v] = false;
+	}
+	for (int v = 0; v < G.numNodes; v++)
+	{
+		if (!visited[v])
+			DFS(G,v);
+	}
+}
+
+void DFSMyGraph(MyGraph G, int v)
+{
+	for (int v = 0; v < G.numNodes; v++)
+	{
+		visited[v] = false;
+	}
+	cout << G.vexs[v]; visited[v] = true;
+	for (int w = 0; w < G.numNodes; w++)
+	{
+		if ((G.arc[v][w] != 0) && (!visited[w]))
+			DFS(G, w);
+	}
+}
 Status CreatUDN(MyGraph& G)
 {
-	cout << "输入总顶点数，总边数" << endl;
+	cout << "输入总顶点数，总边数，以空格或回车隔开" << endl;
 	cin >> G.numNodes >> G.numEdges;
 	cout << "依次输入顶点的信息" << endl;
 	for (int i = 0; i < G.numNodes; i++)
