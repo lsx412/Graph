@@ -2,6 +2,8 @@
 #define _GRAPH_H_
 #include <stdlib.h>
 #include <iostream>
+#include "MyQueue.h"
+#include <queue>
 #define MAXVEX 20
 #define INFINITY 32768
 #define OK 1
@@ -56,6 +58,31 @@ void DFS(MyGraph G, int v)
 	}
 }
 
+void BFS(MyGraph G, int v)
+{
+	MySqQueue Q;
+	for (int v = 0; v < G.numNodes; v++)
+	{
+		visited[v] = false;
+	}
+	cout << G.vexs[v]; visited[v] = true;
+	InitQueue(Q);
+	EnQueue(Q, v);
+	while (!QueueEmpty(Q))
+	{
+		int u;
+		DeQueue(Q, u);
+		for (int w = FirstAdjVex(G, u); w >= 0; w = NextAdjVex(G, u, w))
+		{
+			if (!visited[w])
+			{
+				cout << G.vexs[w]; visited[w] = true;
+				EnQueue(Q, w);
+			}
+		}
+	}
+}
+
 void DFSTraverse(MyGraph G)
 {
 	for (int v = 0; v < G.numNodes; v++)
@@ -83,9 +110,31 @@ void DFSMyGraph(MyGraph G, int v)
 	}
 }
 
-void BFS(MyGraph G, int v)
+void BFSTraverse(MyGraph G)
 {
+	for (int v = 0; v < G.numNodes; v++)
+	{
+		visited[v] = false;
+	}
+	for (int v = 0; v < G.numNodes; v++)
+	{
+		if (!visited[v])
+			BFS(G, v);
+	}
+}
 
+void BFSMyGraph(MyGraph G, int v)
+{
+	for (int v = 0; v < G.numNodes; v++)
+	{
+		visited[v] = false;
+	}
+	cout << G.vexs[v]; visited[v] = true;
+	for (int w = 0; w < G.numNodes; w++)
+	{
+		if ((G.arc[v][w] != 0) && (!visited[w]))
+			BFS(G, w);
+	}
 }
 
 Status CreatUDN(MyGraph& G)
